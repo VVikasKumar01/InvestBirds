@@ -3,31 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>InvestBirds</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="styles.css"/>
-</head>
-<body>
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">💹 InvestBirds - AI Investment Copilot</h2>
+  <title>InvestGPT – AI Investment Copilot</title>
 
-    <form id="investmentForm" class="p-4 rounded shadow-sm">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Bootstrap (Optional) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-light text-dark">
+
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">💡InvestBirds - AI Investment Copilot</h2>
+
+    <!-- Investment Form -->
+    <form id="investmentForm" class="bg-white p-4 rounded shadow-sm border">
       <div class="mb-3">
-        <label for="capital" class="form-label">Investment Capital (INR)</label>
-        <input type="number" class="form-control" id="capital" required />
+        <label for="capital" class="form-label">Capital (₹)</label>
+        <input type="number" class="form-control" id="capital" required>
       </div>
       <div class="mb-3">
-        <label for="timePeriod" class="form-label">Time Period (Years)</label>
-        <input type="number" class="form-control" id="timePeriod" required />
+        <label for="timePeriod" class="form-label">Investment Time Period</label>
+        <input type="text" class="form-control" id="timePeriod" required>
       </div>
       <div class="mb-3">
-        <label for="roi" class="form-label">Return Expectation (%)</label>
-        <input type="number" class="form-control" id="roi" required />
+        <label for="roi" class="form-label">Expected ROI (%)</label>
+        <input type="text" class="form-control" id="roi" required>
       </div>
       <div class="mb-3">
-        <label for="riskTolerance" class="form-label">Risk Level</label>
-        <select class="form-select" id="riskTolerance" required>
-          <option value="">Choose...</option>
+        <label for="riskTolerance" class="form-label">Risk Tolerance</label>
+        <select id="riskTolerance" class="form-select" required>
+          <option value="">Select</option>
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
@@ -35,23 +45,31 @@
       </div>
       <div class="mb-3">
         <label for="investmentType" class="form-label">Investment Type</label>
-        <select class="form-select" id="investmentType" required>
-          <option value="">Choose...</option>
+        <select id="investmentType" class="form-select" required>
+          <option value="">Select</option>
           <option value="stocks">Stocks</option>
           <option value="mutual funds">Mutual Funds</option>
-          <option value="digital gold">Digital Gold</option>
+          <option value="gold">Gold</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Build Portfolio</button>
+      <button type="submit" class="btn btn-primary w-100">Generate Portfolio 🚀</button>
     </form>
 
-    <div id="portfolioResult" class="mt-5"></div>
+    <!-- Chat Simulation UI -->
+    <div class="mt-5">
+      <h5>💬 Chat with InvestGPT</h5>
+      <div id="chatBox" class="p-3 bg-white rounded border mb-3" style="height: 200px; overflow-y: auto;"></div>
+      <div class="d-flex">
+        <input type="text" id="userInput" class="form-control me-2" placeholder="Ask something...">
+        <button onclick="sendMessage()" class="btn btn-outline-primary">Send</button>
+      </div>
+    </div>
 
-    <canvas id="portfolioChart" class="mt-4" style="width: 100%; max-height: 400px;"></canvas>
+    <!-- Portfolio Output -->
+    <div id="portfolioResult" class="mt-5"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
