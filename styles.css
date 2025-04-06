@@ -1,8 +1,26 @@
-
 body {
   background-color: #f4f7f9;
   font-family: 'Segoe UI', sans-serif;
 }
+
 form {
   background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+label {
+  font-weight: 500;
+}
+
+#portfolioResult {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
