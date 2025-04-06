@@ -1,46 +1,31 @@
-const chatBox = document.getElementById('chatBox');
-
-// ✅ Append chat messages
-function appendMessage(content, sender = 'user') {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('chat-message', sender === 'user' ? 'user-message' : 'ai-message');
-
-  const bubble = document.createElement('div');
-  bubble.classList.add('message-bubble');
-  bubble.innerText = content;
-
-  messageDiv.appendChild(bubble);
-  chatBox.appendChild(messageDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-// ✅ Simulate AI replies
-function getAIResponse(message) {
-  message = message.toLowerCase();
-  if (message.includes('risk')) return "Let's assess your risk tolerance. Are you low, medium, or high risk?";
-  if (message.includes('capital')) return "What's the amount you plan to invest? 💰";
-  if (message.includes('time')) return "What's your investment time horizon—short, medium, or long-term?";
-  if (message.includes('stocks') || message.includes('mutual funds') || message.includes('gold')) {
-    return "Great choice! I'll pull the top picks in that category for you shortly. 📊";
-  }
-  return "Got it! Let's keep going—tell me more or fill in the form to build your portfolio.";
-}
-
-// ✅ Chat send handler
-function sendMessage() {
-  const userInput = document.getElementById('userInput');
-  const message = userInput.value.trim();
-  if (message === '') return;
-  appendMessage(message, 'user');
-  userInput.value = '';
-
-  setTimeout(() => {
-    const reply = getAIResponse(message);
-    appendMessage(reply, 'ai');
-  }, 800);
-}
-
 // ✅ Form submission handler
+document.getElementById('investmentForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const capital = parseFloat(document.getElementById('capital').value);
+  const timePeriod = document.getElementById('timePeriod').value;
+  const roi = document.getElementById('roi').value;
+  const riskTolerance = document.getElementById('riskTolerance').value;
+  const investmentType = document.getElementById('investmentType').value;
+
+  if (capital && timePeriod && roi && riskTolerance && investmentType) {
+    const samplePortfolio = {
+      portfolio: [
+        { asset: 'Equity Large Cap', type: 'Stocks', allocation: '35', notes: 'Stable high-cap investments' },
+        { asset: 'Mid Cap Mutual Fund', type: 'Funds', allocation: '25', notes: 'Moderate growth potential' },
+        { asset: 'Gold ETF', type: 'Commodity', allocation: '20', notes: 'Hedge against volatility' },
+        { asset: 'REITs', type: 'Real Estate', allocation: '10', notes: 'Passive income' },
+        { asset: 'Cash', type: 'Liquidity', allocation: '10', notes: 'Emergency buffer' }
+      ]
+    };
+    renderPortfolio(samplePortfolio);
+  } else {
+    alert("Please fill out all the form fields to continue.");
+  }
+});
+
+/*
+// ✅ Form submission handler BY USING GEMINI API conected to backend
 document.getElementById('investmentForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -79,21 +64,17 @@ document.getElementById('investmentForm').addEventListener('submit', function (e
     appendMessage("Please fill out all the form fields to continue.", 'ai');
   }
 });
+*/
 
 // ✅ Portfolio renderer
 function renderPortfolio(data) {
   const resultDiv = document.getElementById('portfolioResult');
   resultDiv.innerHTML = '';
 
-  if (!Array.isArray(data.portfolio) || data.portfolio.length === 0) {
-    appendMessage("⚠️ No portfolio data returned. Please try different inputs.", 'ai');
-    return;
-  }
-
   const table = document.createElement('table');
-  table.className = 'table table-bordered mt-4';
+  table.className = 'table table-bordered table-dark text-light';
   table.innerHTML = `
-    <thead class="table-light">
+    <thead>
       <tr>
         <th>Asset</th>
         <th>Type</th>
@@ -114,10 +95,10 @@ function renderPortfolio(data) {
   data.portfolio.forEach((item, idx) => {
     const row = `
       <tr>
-        <td>${item.asset || 'N/A'}</td>
-        <td>${item.type || 'N/A'}</td>
-        <td>${item.allocation || 0}</td>
-        <td>${item.notes || '—'}</td>
+        <td>${item.asset}</td>
+        <td>${item.type}</td>
+        <td>${item.allocation}</td>
+        <td>${item.notes}</td>
       </tr>
     `;
     tableBody.innerHTML += row;
@@ -147,14 +128,14 @@ function renderChart(labels, data, colors) {
       datasets: [{
         data: data,
         backgroundColor: colors,
-        borderColor: '#fff',
+        borderColor: '#000',
         borderWidth: 2
       }]
     },
     options: {
       responsive: true,
       plugins: {
-        legend: { position: 'bottom' },
+        legend: { position: 'bottom', labels: { color: 'white' } },
         tooltip: {
           callbacks: {
             label: ctx => `${ctx.label}: ${ctx.raw}%`
